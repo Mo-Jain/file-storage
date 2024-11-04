@@ -1,115 +1,171 @@
-import Image from "next/image";
-import localFont from "next/font/local";
+import { useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import { FileText, Folder, Clock, Star, Workflow, HelpCircle, Search, X, CheckCircle2 } from "lucide-react"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+export default function Component() {
+  const [isSearchVisible, setIsSearchVisible] = useState(false)
 
-export default function Home() {
+  const toggleSearch = () => setIsSearchVisible(!isSearchVisible)
+
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-gray-300">
+      {/* Header Bar */}
+      <header className="h-14 bg-gray-200/60 border-b flex items-center justify-between px-4">
+        <Button variant="ghost" size="icon" className="text-gray-600">
+          <HelpCircle className="h-5 w-5" />
+          <span className="sr-only">Help</span>
+        </Button>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className={`flex items-center gap-2 transition-opacity duration-300 ${isSearchVisible ? 'opacity-0' : 'opacity-100'}`}>
+          <img 
+            src="/placeholder.svg?height=24&width=80" 
+            alt="Adani Natural Resources" 
+            className="h-6"
+          />
+          <span className="text-gray-600 text-sm">Natural Resources</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="flex items-center gap-2">
+          <div className={`transition-all duration-300 ${isSearchVisible ? 'w-96' : 'w-0'} overflow-hidden`}>
+            <Input 
+              type="search" 
+              placeholder="Search..." 
+              className="h-8"
+            />
+          </div>
+          <Button variant="ghost" size="icon" className="text-gray-600" onClick={toggleSearch}>
+            {isSearchVisible ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            <span className="sr-only">{isSearchVisible ? 'Close Search' : 'Search'}</span>
+          </Button>
+          <Button variant="ghost" size="icon" className="text-gray-600">
+            <Star className="h-5 w-5" />
+            <span className="sr-only">Favorites</span>
+          </Button>
+          <Avatar className="h-8 w-8 bg-blue-900 text-white">
+            <AvatarFallback className='bg-blue-900'>JM</AvatarFallback>
+          </Avatar>
+        </div>
+      </header>
+
+      {/* Existing Dashboard Content */}
+      <div className="px-8 py-1">
+        <div className="grid grid-cols-4 grid-rows-4 gap-3 h-[calc(100vh-4rem)]">
+          <Card className="col-span-2 row-span-2 rounded-none">
+            <CardHeader className="flex flex-row items-center gap-2 border-b h-1/6">
+              <FileText className="h-5 w-5 text-blue-500" />
+              <CardTitle className="text-sm font-medium">Documents and Versions Uploaded</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[calc(100%-4rem)] flex items-center justify-center text-muted-foreground">
+              No documents to display
+            </CardContent>
+          </Card>
+          
+          <Card className="row-span-2 rounded-none">
+            <CardHeader className="flex flex-row items-center gap-2 border-b h-1/6 ">
+              <CheckCircle2 className="h-5 w-5 text-green-500" />
+              <CardTitle className="text-sm font-medium">My Assignments</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[calc(100%-4rem)] flex items-center">
+              <div className="flex items-start gap-2 text-sm">
+                <FileText className="h-4 w-4 shrink-0" />
+                <div>
+                  <div>NFA Form - 10/Sep/2024 03:16 PM</div>
+                  <div className="text-xs text-muted-foreground">30079647 - NFA WF - 10/Sep/2024 03:16...</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="row-span-2 rounded-none">
+            <CardHeader className="flex flex-row items-center gap-2 border-b h-1/6">
+              <Workflow className="h-5 w-5 text-green-500" />
+              <CardTitle className="text-sm font-medium">My Workflows</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[calc(100%-4rem)] bg-gray-800 text-white flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">1</span>
+                  <span className="text-gray-300">Total</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  <span className="text-gray-300">On time</span>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <div>
+                  <div className="text-gray-400 text-xs">Workflow name</div>
+                  <div className="text-sm">30079647 - NFA WF - 10/Sep/2024 03:16 PM</div>
+                </div>
+                
+                <div>
+                  <div className="text-gray-400 text-xs">Current step</div>
+                  <div className="text-sm">NFA Form - 10/Sep/2024 03:16 PM</div>
+                </div>
+                
+                <div className="flex justify-between">
+                  <div>
+                    <div className="text-gray-400 text-xs">Assigned to</div>
+                    <div className="text-sm">Mohit Jain</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Start date</div>
+                    <div className="text-sm">September 10, 2024</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="row-span-2 rounded-none">
+            <CardHeader className="flex flex-row items-center gap-2 border-b h-1/6">
+              <Star className="h-5 w-5 text-yellow-500" />
+              <CardTitle className="text-sm font-medium">Favorites</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[calc(100%-4rem)] flex flex-col items-center justify-center text-muted-foreground">
+              <FileText className="h-12 w-12 text-gray-200 mb-2" />
+              There are no items to display.
+            </CardContent>
+          </Card>
+
+          <Card className="row-span-2 rounded-none">
+            <CardHeader className="flex flex-row items-center gap-2 border-b h-1/6">
+              <Clock className="h-5 w-5 text-purple-500" />
+              <CardTitle className="text-sm font-medium">Recently Accessed</CardTitle>
+            </CardHeader>
+            <CardContent className="h-[calc(100%-4rem)] flex items-center">
+              <div className="flex items-center gap-2 text-sm">
+                <FileText className="h-4 w-4 text-red-500" />
+                ANR - PROD - ECM - UG - NFA & Letters Workflow
+              </div>
+            </CardContent>
+          </Card>
+
+          <Button variant="ghost" className="bg-purple-700 hover:bg-purple-800 text-white flex flex-col items-center justify-center gap-2 h-full rounded-none">
+            <Folder className="h-6 w-6" />
+            <span className="text-xs text-center">Enterprise</span>
+          </Button>
+          
+          <Button variant="ghost" className="bg-purple-900 hover:bg-purple-950 text-white flex flex-col items-center justify-center gap-2 h-full rounded-none">
+            <Folder className="h-6 w-6" />
+            <span className="text-xs text-center">Personal Workspace</span>
+          </Button>
+          
+          <Button variant="ghost" className="bg-blue-600 hover:bg-blue-700 text-white flex flex-col items-center justify-center gap-2 h-full rounded-none">
+            <Folder className="h-6 w-6" />
+            <span className="text-xs text-center">User Guides</span>
+          </Button>
+          
+          <Button variant="ghost" className="bg-blue-800 hover:bg-blue-900 text-white flex flex-col items-center justify-center gap-2 h-full rounded-none">
+            <Folder className="h-6 w-6" />
+            <span className="text-xs text-center">NFA and Letters Workflow Report</span>
+          </Button>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
